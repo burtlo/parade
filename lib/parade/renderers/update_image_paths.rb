@@ -30,7 +30,7 @@ module Parade
 
         content.gsub(/img src=["'](?!https?:\/\/)\/?([^\/].*?)["']/) do |image_source|
           image_name = Regexp.last_match(1)
-          
+
           html_image_path = File.join("/","image",image_name)
           updated_image_source = %{img src="#{html_image_path}"}
 
@@ -47,6 +47,8 @@ module Parade
       if defined?(Magick)
 
         def get_image_size(path)
+          return unless File.exists?(path)
+
           unless cached_image_size.key?(path)
 
             image = Magick::Image.ping(path).first
